@@ -372,22 +372,37 @@ const App = () => {
             <h2 className="text-xl font-semibold mb-4">Messages</h2>
 
             <div className="flex-1 overflow-y-auto mb-4 space-y-2">
-              {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`p-3 rounded-lg max-w-[80%] ${
-                    msg.sender === "You"
-                      ? "bg-blue-500 text-white ml-auto text-right"
-                      : msg.sender === "System"
-                      ? "bg-gray-200 text-gray-700 text-center text-sm mx-auto"
-                      : "bg-gray-300 text-gray-800"
-                  }`}
-                >
-                  <div className="font-semibold text-sm">{msg.sender}</div>
-                  <div>{msg.content}</div>
-                  <div className="text-xs opacity-75 mt-1">{msg.time}</div>
-                </div>
-              ))}
+              {messages.map((msg, idx) => {
+                const isUrl = /^https?:\/\/[^\s]+$/.test(msg.content);
+
+                return (
+                  <div
+                    key={idx}
+                    className={`p-3 rounded-lg max-w-[80%] ${
+                      msg.sender === "You"
+                        ? "bg-blue-500 text-white ml-auto text-right"
+                        : msg.sender === "System"
+                        ? "bg-gray-200 text-gray-700 text-center text-sm mx-auto"
+                        : "bg-gray-300 text-gray-800"
+                    }`}
+                  >
+                    <div className="font-semibold text-sm">{msg.sender}</div>
+                    {isUrl ? (
+                      <a
+                        href={msg.content}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline break-all"
+                      >
+                        {msg.content}
+                      </a>
+                    ) : (
+                      <div className="break-all">{msg.content}</div>
+                    )}
+                    <div className="text-xs opacity-75 mt-1">{msg.time}</div>
+                  </div>
+                );
+              })}
               <div ref={messagesEndRef} />
             </div>
 
