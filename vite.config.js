@@ -5,6 +5,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/5hare/",
   plugins: [
     react(),
     tailwindcss(),
